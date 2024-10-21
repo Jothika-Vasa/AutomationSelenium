@@ -1,0 +1,40 @@
+
+
+import java.time.Duration;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class DynamicWebTable {
+
+	public static void main(String[] args) {
+		
+				WebDriver driver=new ChromeDriver();
+				driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+				
+				driver.get("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login ");
+				driver.manage().window().maximize();
+				
+				driver.findElement(By.xpath("//input[@placeholder='Username']")).sendKeys("Admin");
+				driver.findElement(By.xpath("//input[@placeholder='Password']")).sendKeys("admin123");
+				driver.findElement(By.xpath("//button[normalize-space()='Login']")).click();
+				
+				driver.findElement(By.xpath("//span[normalize-space()='Admin']")).click();
+				
+				int count=driver.findElements(By.xpath("//div[@class='oxd-table-body']//div[@role='row']")).size();
+				System.out.println("Count of rows:"+count);
+				System.out.println("Username"+"\t"+"User Role");
+				for(int i=1;i<=count;i++) {
+					
+					String Username=driver.findElement(By.xpath("//div[@role='rowgroup']//div["+i+"]//div[1]//div[2]//div[1]")).getText();
+					String UserRole=driver.findElement(By.xpath("//div[@role='rowgroup']//div["+i+"]//div[1]//div[3]//div[1]")).getText();
+					System.out.println(Username+"\t"+UserRole);
+				}
+				
+
+			}
+
+	}
+
+
